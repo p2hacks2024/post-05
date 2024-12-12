@@ -14,6 +14,12 @@ plugins {
 
 //    Serialization
     alias(libs.plugins.serialization)
+
+//    Google Services
+    alias(libs.plugins.google.services)
+
+//    Secrets Gradle Plugin
+    alias(libs.plugins.secrets.gradle.plugin)
 }
 
 android {
@@ -28,6 +34,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "WEB_CLIENT_ID", "\"${System.getenv("WEB_CLIENT_ID") ?: ""}\"")
     }
 
     buildTypes {
@@ -48,6 +56,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -95,13 +104,24 @@ dependencies {
 
 //    Navigation
     implementation(libs.androidx.navigation.compose)
+
+//    Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
+
+//    Coroutines
+    implementation(libs.kotlinx.coroutines.play.services)
+
+//    Google Auth
+    implementation(libs.play.services.auth)
 }
 
 detekt {
     config.setFrom("${rootProject.projectDir}/config/detekt/detekt.yml")
     buildUponDefaultConfig = true
 
-    source = files("src/main/java")
+    source.setFrom(files("src/main/java"))
 
     autoCorrect = true
 }

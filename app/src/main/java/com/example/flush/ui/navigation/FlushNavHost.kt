@@ -35,7 +35,7 @@ fun FlushNavHost(
 
         composable<Screen.SignUp> {
             SignUpScreen(
-                navigateToSignIn = { navController.navigateTo(Screen.SignIn) },
+                navigateToAuthSelection = { navController.navigateTo(Screen.AuthSelection) },
                 navigateToSearch = { navController.navigateTo(Screen.Search) },
             )
         }
